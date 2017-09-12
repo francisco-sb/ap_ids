@@ -1,0 +1,41 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateSignatureStudentTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        //Crea la tabla
+        Schema::create('signature_student', function (Blueprint $table) {
+            //relación1
+            $table->integer('alumno_matricula')->unsigned()->nullable();
+            //relación2
+            $table->integer('materia_id')->unsigned()->nullable();
+            
+            $table->timestamps();
+        });
+
+        Schema::table('signature_student', function (Blueprint $table) {
+            $table->foreign('alumno_matricula')->references('matricula')->on('students');
+            $table->foreign('materia_id')->references('id')->on('signatures');            
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        //Borra la tabla
+        Schema::drop('signature_student');
+    }
+}
